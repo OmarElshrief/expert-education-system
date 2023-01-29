@@ -1,0 +1,171 @@
+; GENERAL .......................
+
+(deftemplate Tracks 
+     (slot ID)
+     (slot name)
+)
+(deftemplate Required 
+	(slot M_name )
+        (slot prerequisite )
+        (slot Time )
+)
+
+(deffacts TRACK
+
+      (Tracks (ID 1)(name Android_Development))
+
+      (Tracks (ID 2)(name cloud_computing))
+
+      (Tracks (ID 3)(name software_engineering)))
+(reset)
+
+(defrule R_one 
+	(Tracks (name ?name)(ID ?ID))
+	=>
+	(printout t "for "?name " Enter :"?ID  crlf)
+	(assert (p_c ?ID))
+	
+)
+
+
+
+
+
+(defrule R_two 
+	(p_c 1)
+	=>
+	(assert (choosed (read)))
+)
+
+
+(defrule R_three
+	(required_Show)
+	(Required (M_name ?M_name) (Time ?Time) (prerequisite ?prerequisite))
+	=>
+	(printout t "Study : "?M_name "    required Time : "?Time "    Prerequisite : "?prerequisite crlf "               **************" crlf)
+)
+
+;..................................................
+
+
+; ANDROID DEVELOPMENT ....................................
+
+(deftemplate AD
+	(slot ID)
+	(slot M_name )
+        (slot prerequisite )
+        (slot Time )
+	(slot time)
+)
+
+
+
+
+
+(deffacts ADF
+	(AD (ID 4)(M_name Intents_and_services) (prerequisite User_Interfaces) (Time 5H) (time 5))
+	(AD (ID 3)(M_name User_Interfaces) (prerequisite Android_Development_Environment) (Time 4H) (time 4))
+	(AD (ID 2)(M_name Android_Development_Environment) (prerequisite Introduction_to_android) (Time 2H) (time 2))
+	(AD (ID 1)(M_name Introduction_to_android) (prerequisite none) (Time 1H) (time 1))
+)
+(reset)
+
+
+(defrule R_four
+	(choosed 1) 
+	(AD (ID ?ID)(M_name ?M_name)(Time ?Time) (prerequisite ?prerequisite))
+	=>
+	(printout t ?M_name crlf)
+	(printout t "did you study this ?? y/n")
+	(bind ?tmb (read))
+	(if (eq ?tmb n)
+		then (assert (Required (M_name ?M_name) (prerequisite ?prerequisite) (Time ?Time)))
+	)
+	(if (= ?ID 4) then (assert (required_Show))
+	)
+)
+
+;.............................................
+
+
+;for Cloud Computing ....................................
+(deftemplate CC
+	(slot ID)
+	(slot M_name )
+        (slot prerequisite )
+        (slot Time )
+	(slot time)
+)
+
+(deffacts CCF
+	(CC (ID 4)(M_name Cloud_Computing_Deployment) (prerequisite Cloud_Computing_Services) (Time 5H) (time 5))
+	(CC (ID 3)(M_name Cloud_Computing_Services) (prerequisite Cloud_Computing_Drivens) (Time 4H) (time 4))
+	(CC (ID 2)(M_name Cloud_Computing_Drivens) (prerequisite Introduction_to_Cloud_Computing) (Time 2H) (time 2))
+	(CC (ID 1)(M_name Introduction_to_Cloud_Computing) (prerequisite none) (Time 1H) (time 1))
+)
+(reset)
+
+
+
+(defrule R_five
+	(choosed 2) 
+	(CC (ID ?ID)(M_name ?M_name)(Time ?Time) (prerequisite ?prerequisite))
+	=>
+	(printout t ?M_name crlf)
+	(printout t "did you study this ?? y/n")
+	(bind ?tmb (read))
+	(if (eq ?tmb n)
+		then (assert (Required (M_name ?M_name) (prerequisite ?prerequisite) (Time ?Time)))
+	)
+	(if (= ?ID 4) then (assert (required_Show))
+	)
+)
+;..........................................................
+
+
+;for SOFTWARE EMGINEERING ...............................
+
+(deftemplate SE
+	(slot ID)
+	(slot M_name )
+        (slot prerequisite )
+        (slot Time )
+	(slot time)
+)
+
+
+(deffacts SEF
+	(SE (ID 4)(M_name Security_and_Dependability) (prerequisite sociotechnical_Systems) (Time 5H) (time 5))
+	(SE (ID 3)(M_name sociotechnical_Systems) (prerequisite Software_Evolution) (Time 4H) (time 4))
+	(SE (ID 2)(M_name Software_Evolution) (prerequisite Software_Testing) (Time 2H) (time 2))
+	(SE (ID 1)(M_name Software_Testing) (prerequisite none) (Time 1H) (time 1))
+)
+(reset)
+
+
+(defrule R_six
+	(choosed 3) 
+	(SE (ID ?ID)(M_name ?M_name)(Time ?Time) (prerequisite ?prerequisite))
+	=>
+	(printout t ?M_name crlf)
+	(printout t "did you study this ?? y/n")
+	(bind ?tmb (read))
+	(if (eq ?tmb n)
+		then (assert (Required (M_name ?M_name) (prerequisite ?prerequisite) (Time ?Time)))
+	)
+	(if (= ?ID 4) then (assert (required_Show))
+	)
+)
+
+
+;.........................................................
+; Functions ......................
+
+(deffunction clearEveryThing()
+	(printout t "Enything Else ?? y/n : ")
+	(bind ?tmb (read))
+	(if (eq ?tmb y)
+		then (clear) (load C:\Users\Alandalos\Desktop\Final.txt)
+		else (clear) (exit)
+	)		
+)
